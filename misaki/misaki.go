@@ -41,6 +41,8 @@ func New(jisx0208, jisx0201 string) (*Misaki, error) {
 	if err != nil {
 		return nil, errors.New("JIS X0201 source file decode error")
 	}
+
+	m.Use7x7Font = false
 	return &m, nil
 }
 
