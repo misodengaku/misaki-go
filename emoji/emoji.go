@@ -32,14 +32,14 @@ func (e *EmojiAA) ConvertToVerticalAA(src [][]string) []string {
 			v = strings.Join(slice, " ")
 			dst = append(dst, v)
 		}
-		dst = append(dst, "\r\n")
+		dst = append(dst, "\n")
 	}
 	return dst
 }
 
 func (e *EmojiAA) AAFromImageFileString(imgFilePrefix string) [][]string {
-	imgFiles := make([]string, len(imgFilePrefix))
-	for i, v := range imgFilePrefix {
+	imgFiles := make([]string, len([]rune(imgFilePrefix)))
+	for i, v := range []rune(imgFilePrefix) {
 		imgFiles[i] = string(v) + ".png"
 	}
 	return e.AAFromImageFiles(imgFiles)
