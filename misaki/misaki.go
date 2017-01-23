@@ -44,7 +44,7 @@ func New(jisx0208, jisx0201 string) (*Misaki, error) {
 	return &m, nil
 }
 
-func (m *Misaki) SubimageFromRune(r rune, fileSave bool) (image.Image, error) {
+func (m *Misaki) SubimageFromRune(r rune, fileSave bool) (*image.Image, error) {
 
 	char := string(r)
 
@@ -59,6 +59,9 @@ func (m *Misaki) SubimageFromRune(r rune, fileSave bool) (image.Image, error) {
 		ku := (kuRaw - 0x80) * 2
 		if ten < 0x9f {
 			ku--
+			if ten > 0x7e {
+				ten--
+			}
 			ten = ten - 0x40
 		} else {
 			ten = ten - 0x9f
@@ -88,7 +91,7 @@ func (m *Misaki) SubimageFromRune(r rune, fileSave bool) (image.Image, error) {
 			png.Encode(outputFile, fontImg)
 			outputFile.Close()
 		}
-		return fontImg, nil
+		return &fontImg, nil
 
 	} else if kuRaw < 0x80 || kuRaw >= 0xa0 {
 		kuH := int(kuRaw) >> 4 & 0x0f
@@ -115,17 +118,17 @@ func (m *Misaki) SubimageFromRune(r rune, fileSave bool) (image.Image, error) {
 			png.Encode(outputFile, fontImg)
 			outputFile.Close()
 		}
-		return fontImg, nil
+		return &fontImg, nil
 	}
 	fmt.Printf("%s,\t%02x\r\n", char, kuRaw)
 	return nil, errors.New("out of range")
 }
 
-func (m *Misaki) ConvertString(s string, fileSave bool) ([]image.Image, error) {
+func (m *Misaki) ConvertString(s string, fileSave bool) ([]*image.Image, error) {
 	c := make(chan struct{})
 	e := make(chan error)
 	sLen := utf8.RuneCountInString(s)
-	imgs := make([]image.Image, sLen)
+	imgs := make([]*image.Image, sLen)
 	for i, r := range []rune(s) {
 		go func(index int, rc rune) {
 			var err error
