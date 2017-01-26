@@ -15,7 +15,7 @@ func main() {
 	// 7x7, 3x7で切り出す（一部の記号以外に影響なし）
 	m.Use7x7Font = false
 
-	querystring := "こんにちは～パルフーズでーす ｱｲｳｴｵ１②Ⅲ　秒速5㌢㍍"
+	querystring := "パルフーズ"
 
 	// querystring := "まみむめもマミムメモ円園"
 
@@ -38,7 +38,8 @@ func main() {
 	// e.AAFromImageFile("ア.png")
 	// e.AAFromImages(imgs)
 
-	for _, v := range e.ConvertToVerticalAA(e.AAFromImageFileString(querystring)) {
+	// for _, v := range e.ConvertToVerticalAA(e.AAFromImageFileString(querystring)) {
+	for _, v := range e.ConvertToHorizontalAA(e.AAFromImageFileString(querystring)) {
 		fmt.Println(v)
 	}
 	fmt.Println("done")

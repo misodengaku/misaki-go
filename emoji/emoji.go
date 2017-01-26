@@ -18,6 +18,18 @@ func New(foreground, background string, th uint8) *EmojiAA {
 	return &e
 }
 
+func (e *EmojiAA) ConvertToHorizontalAA(src [][]string) []string {
+	var dst []string
+	for y := 0; y < 8; y++ {
+		line := ""
+		for _, moji := range src {
+			line += moji[y]
+		}
+		dst = append(dst, line)
+	}
+	return dst
+}
+
 func (e *EmojiAA) ConvertToVerticalAA(src [][]string) []string {
 	var dst []string
 	for _, moji := range src {
